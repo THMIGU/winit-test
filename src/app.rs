@@ -12,9 +12,10 @@ pub struct App {
 
 impl ApplicationHandler for App {
 	fn resumed(&mut self, event_loop: &ActiveEventLoop) {
+		let window_attributes = Window::default_attributes().with_title("winit-test");
 		self.window = Some(
 			event_loop
-				.create_window(Window::default_attributes())
+				.create_window(window_attributes)
 				.unwrap(),
 		);
 	}

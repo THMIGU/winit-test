@@ -1,8 +1,8 @@
+mod app;
+
 use winit::event_loop::EventLoop;
 
 use crate::app::App;
-
-mod app;
 
 fn main() {
 	let event_loop = EventLoop::new().unwrap();
