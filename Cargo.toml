@@ -5,3 +5,16 @@ edition = "2024"
 
 [dependencies]
 winit = "0.30.13"
+wgpu = {
+	version = "29.0.3",
+	default-features = false,
+	features = ["vulkan", "metal", "webgpu", "wgsl"],
+}
+
+[profile.release]
+debug = false
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
+opt-level = "s"
