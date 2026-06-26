@@ -1,5 +1,6 @@
-use wgpu::rwh::{HasDisplayHandle, HasWindowHandle};
-use winit::window::Window;
+use std::sync::Arc;
+
+use winit::{dpi::PhysicalSize, window::Window};
 
 pub struct Context {
 	pub surface: wgpu::Surface<'static>,
@@ -9,30 +10,29 @@ pub struct Context {
 }
 
 impl Context {
-	pub async fn new(window: &Window) -> Self {
-		let size = window.inner_size();
+	pub fn create_surface(
+		window: &Arc<Window>,
+	) -> (wgpu::Surface<'static>, wgpu::Instance, PhysicalSize<u32>) {
+		let mut size = window.inner_size();
+		if size.width == 0 || size.height == 0 {
+			size.width = 800;
+			size.height = 600;
+		}
+
 		let instance = wgpu::Instance::default();
 
-		let display_handle = window
-			.display_handle()
-			.unwrap()
-			.as_raw();
-		let window_handle = window
-			.window_handle()
-			.unwrap()
-			.as_raw();
+		let surface = instance
+			.create_surface(window.clone())
+			.unwrap();
 
-		let surface_target = wgpu::SurfaceTargetUnsafe::RawHandle {
-			raw_display_handle: Some(display_handle),
-			raw_window_handle: window_handle,
-		};
+		(surface, instance, size)
+	}
 
-		let surface = unsafe {
-			instance
-				.create_surface_unsafe(surface_target)
-				.unwrap()
-		};
-
+	pub async fn new(
+		instance: wgpu::Instance,
+		surface: wgpu::Surface<'static>,
+		size: PhysicalSize<u32>,
+	) -> Self {
 		let adapter = instance
 			.request_adapter(&wgpu::RequestAdapterOptions {
 				power_preference: wgpu::PowerPreference::HighPerformance,

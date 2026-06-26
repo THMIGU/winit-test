@@ -13,6 +13,10 @@ wgpu = {
 	features = ["wgsl"],
 }
 
+# not web assembly
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+pollster = "0.4.0"
+
 # web assembly
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wgpu = {
@@ -20,6 +24,13 @@ wgpu = {
 	default-features = false,
 	features = ["webgpu"],
 }
+wasm-bindgen = "0.2.126"
+web-sys = {
+	version = "0.3.103",
+	features = ["console"],
+}
+wasm-bindgen-futures = "0.4.76"
+console_error_panic_hook = "0.1.7"
 
 # windows
 [target.'cfg(target_os = "windows")'.dependencies]
