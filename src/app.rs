@@ -20,6 +20,13 @@ impl ApplicationHandler for App {
 		);
 	}
 
+	fn about_to_wait(&mut self, _event_loop: &ActiveEventLoop) {
+		self.window
+			.as_ref()
+			.unwrap()
+			.request_redraw();
+	}
+
 	fn window_event(
 		&mut self,
 		event_loop: &ActiveEventLoop,
@@ -30,12 +37,7 @@ impl ApplicationHandler for App {
 			WindowEvent::CloseRequested => {
 				event_loop.exit();
 			}
-			WindowEvent::RedrawRequested => {
-				self.window
-					.as_ref()
-					.unwrap()
-					.request_redraw();
-			}
+			WindowEvent::RedrawRequested => {}
 			_ => (),
 		}
 	}

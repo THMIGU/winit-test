@@ -3,13 +3,49 @@ name = "winit-test"
 version = "0.1.0"
 edition = "2024"
 
+# DEPENDENCIES
+
 [dependencies]
 winit = "0.30.13"
 wgpu = {
 	version = "29.0.3",
 	default-features = false,
-	features = ["vulkan", "metal", "webgpu", "wgsl"],
+	features = ["wgsl"],
 }
+
+# web assembly
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wgpu = {
+	version = "29.0.3",
+	default-features = false,
+	features = ["webgpu"],
+}
+
+# windows
+[target.'cfg(target_os = "windows")'.dependencies]
+wgpu = {
+	version = "29.0.3",
+	default-features = false,
+	features = ["dx12"],
+}
+
+# linux
+[target.'cfg(target_os = "linux")'.dependencies]
+wgpu = {
+	version = "29.0.3",
+	default-features = false,
+	features = ["vulkan"],
+}
+
+# mac os
+[target.'cfg(target_os = "macos")'.dependencies]
+wgpu = {
+	version = "29.0.3",
+	default-features = false,
+	features = ["metal"],
+}
+
+# BUILD
 
 [profile.release]
 debug = false
