@@ -2,7 +2,6 @@ use std::sync::Arc;
 
 use winit::{
 	application::ApplicationHandler,
-	dpi::PhysicalSize,
 	event::WindowEvent,
 	event_loop::ActiveEventLoop,
 	window::{Window, WindowId},
@@ -42,6 +41,8 @@ impl ApplicationHandler for App {
 
 		#[cfg(not(target_arch = "wasm32"))]
 		{
+			use winit::dpi::PhysicalSize;
+
 			window_attributes = window_attributes
 				.with_title("winit-test")
 				.with_inner_size(PhysicalSize::new(800, 600));
